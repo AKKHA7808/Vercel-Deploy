@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e+(5$ntgp#n929k9w!@5l+^&thh6_&k&vp*78zhs&ch_-n4ou)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # Allow all hosts for Vercel deployment
 
 
 # Application definition
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'django_deploy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Add templates directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,6 +115,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # For production
+
+# Additional settings for Vercel deployment
+import os
+if os.environ.get('VERCEL_ENV'):
+    DEBUG = False
+    ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
